@@ -29,7 +29,7 @@ class AttachmentController extends Controller
     {
         $request->validate([
             'TaskID' => 'required|exists:tasks,id',
-            'FilePath' => 'required|string', // Adjust validation rules as needed
+            'FilePath' => 'required|string', 
         ]);
 
         $attachment = Attachment::create([
@@ -50,7 +50,7 @@ class AttachmentController extends Controller
 
         $request->validate([
             'TaskID' => 'exists:tasks,id',
-            'FilePath' => 'string', // Adjust validation rules as needed
+            'FilePath' => 'string', 
         ]);
 
         if ($request->has('TaskID')) {

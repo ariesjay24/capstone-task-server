@@ -27,6 +27,7 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
+        try{
         $request->validate([
             'ProjectName' => 'required|string',
             'Description' => 'nullable|string',
@@ -44,7 +45,10 @@ class ProjectController extends Controller
         ]);
 
         return response(['message' => 'Project created successfully', 'project' => $project], 201);
+    }catch (\Exception $e) {
+        return response(['message' => 'Failed to create project', 'error' => $e->getMessage()], 500);
     }
+}
 
     public function update(Request $request, $id)
     {

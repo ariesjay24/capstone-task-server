@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('FirstName');
             $table->string('LastName');
             $table->string('Password');
-            $table->binary('ProfilePicture')->nullable(); 
             $table->timestamps();
         });
     }

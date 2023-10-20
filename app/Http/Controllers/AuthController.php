@@ -17,7 +17,6 @@ class AuthController extends Controller
             'FirstName' => 'required|string',
             'LastName' => 'required|string',
             'Password' => 'required|string|confirmed',
-            'ProfilePicture' => 'nullable|string',
         ]);
 
         $user = User::create([
@@ -26,7 +25,6 @@ class AuthController extends Controller
             'LastName' => $request->input('LastName'),
             'Email' => $request->input('Email'),
             'Password' => bcrypt($request->input('Password')),
-            'ProfilePicture' => $request->input('ProfilePicture'),
         ]);
 
         $token = $user->createToken('API Token')->plainTextToken;
