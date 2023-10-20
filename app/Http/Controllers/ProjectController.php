@@ -38,7 +38,7 @@ class ProjectController extends Controller
         $project = Project::create([
             'ProjectName' => $request->input('ProjectName'),
             'Description' => $request->input('Description'),
-            'UserID' => auth()->id(), // Set the UserID based on the authenticated user.
+            'UserID' => auth()->id(), 
             'StartDate' => $request->input('StartDate'),
             'DueDate' => $request->input('DueDate'),
         ]);
