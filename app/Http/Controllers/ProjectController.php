@@ -26,12 +26,11 @@ class ProjectController extends Controller
     }
 
     public function store(Request $request)
-    {
-        try{
+{
+    try {
         $request->validate([
             'ProjectName' => 'required|string',
             'Description' => 'nullable|string',
-            'UserID' => 'required|exists:users,id',
             'StartDate' => 'required|date',
             'DueDate' => 'required|date',
         ]);
@@ -39,16 +38,17 @@ class ProjectController extends Controller
         $project = Project::create([
             'ProjectName' => $request->input('ProjectName'),
             'Description' => $request->input('Description'),
-            'UserID' => $request->input('UserID'),
+            'UserID' => auth()->id(), // Set the UserID based on the authenticated user.
             'StartDate' => $request->input('StartDate'),
             'DueDate' => $request->input('DueDate'),
         ]);
 
         return response(['message' => 'Project created successfully', 'project' => $project], 201);
-    }catch (\Exception $e) {
-        return response(['message' => 'Failed to create project', 'error' => $e->getMessage()], 500);
+    } catch (\Exception $e) {
+        return response(['message' => 'Failed to create the project', 'error' => $e->getMessage()], 500);
     }
 }
+
 
     public function update(Request $request, $id)
     {

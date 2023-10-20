@@ -11,59 +11,61 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'Username' => 'required|string|unique:users,username',
-            'Email' => 'required|string|unique:users,email|email',
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'Password' => 'required|string|confirmed',
+        $fields = $request->validate([
+            "Username" => "required|string|unique:users,username",
+            "FirstName" => "required|string",
+            "MiddleName" => "nullable|string",
+            "LastName" => "required|string",
+            "Email" => "required|string|unique:users,email|email",
+            "Password" => "required|string|confirmed"
         ]);
 
         $user = User::create([
-            'Username' => $request->input('Username'),
-            'FirstName' => $request->input('FirstName'),
-            'LastName' => $request->input('LastName'),
-            'Email' => $request->input('Email'),
-            'Password' => bcrypt($request->input('Password')),
+            "Username" => $fields["Username"],
+            "FirstName" => $fields["FirstName"],
+            "MiddleName" => $fields["MiddleName"],
+            "LastName" => $fields["LastName"],
+            "Email" => $fields["Email"],
+            "Password" => Hash::make($fields["Password"])
         ]);
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user->createToken("test")->plainTextToken;
 
         return response([
-            'user' => $user,
-            'token' => $token,
+            "user" => $user,
+            "token" => $token,
         ], 201);
     }
 
     public function login(Request $request)
     {
-        $request->validate([
-            'Username' => 'required|string',
-            'Password' => 'required|string',
+        $fields = $request->validate([
+            "Username" => "required|string",
+            "Password" => "required|string"
         ]);
 
-        $user = User::where('Username', $request->input('Username'))->first();
+        $user = User::where("Username", $fields["Username"])->first();
 
-        if (!$user || !Hash::check($request->input('Password'), $user->Password)) {
+        if (!$user || !Hash::check($fields["Password"], $user->Password)) {
             return response([
-                'message' => 'Username or password is incorrect',
+                "message" => "Username or Password is Incorrect"
             ], 401);
         }
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user->createToken("test")->plainTextToken;
 
         return response([
-            'user' => $user,
-            'token' => $token,
-        ], 200);
+            "user" => $user,
+            "token" => $token,
+        ], 201);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        $request->user()->currentAccessToken()->delete();
+        auth()->user()->tokens()->delete();
 
         return response([
-            'message' => 'Logged out',
+            "message" => "Logged Out",
         ], 200);
     }
 }
