@@ -8,11 +8,24 @@ use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
-    public function index()
-    {
-        $projects = Project::all();
-        return response(['projects' => $projects], 200);
+    public function index(Request $request)
+{
+    $sortBy = $request->input('sortBy', 'id'); 
+    $sortOrder = $request->input('sortOrder', 'asc'); 
+
+    $query = Project::query();
+
+    if ($sortBy === 'name') {
+        $query->orderBy('ProjectName', $sortOrder);
+    } else {
+        $query->orderBy('id', $sortOrder);
     }
+
+    $projects = $query->get();
+
+    return response(['projects' => $projects], 200);
+}
+
 
     public function show($id)
     {
@@ -24,6 +37,8 @@ class ProjectController extends Controller
 
         return response(['project' => $project], 200);
     }
+
+    
 
     public function store(Request $request)
 {
@@ -99,4 +114,18 @@ class ProjectController extends Controller
 
         return response(['message' => 'Project deleted successfully'], 200);
     }
+
+    public function getTasksByProject($id)
+{
+    // Retrieve tasks related to the project with the given ID
+    $tasks = Task::where('ProjectID', $id)->get();
+
+    if ($tasks->isEmpty()) {
+        return response(['message' => 'No tasks found for the project'], 404);
+    }
+
+    return response(['tasks' => $tasks], 200);
+}
+
+
 }

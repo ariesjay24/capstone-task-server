@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers;  
 
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -9,10 +9,11 @@ use Illuminate\Http\Response;
 class TaskController extends Controller
 {
     public function index()
-    {
-        $tasks = Task::all();
-        return response(['tasks' => $tasks], 200);
-    }
+{
+    $tasks = Task::with('user')->get(); // Assuming you have a relationship named 'user' in your Task model
+    return response(['tasks' => $tasks], 200);
+}
+
 
     public function show($id)
     {
@@ -119,4 +120,18 @@ class TaskController extends Controller
 
         return response(['message' => 'Task deleted successfully'], 200);
     }
+
+    public function getTasksByProject($id)
+    {
+        // Retrieve tasks related to the project with the given ID
+        $tasks = Task::where('ProjectID', $id)->get();
+
+        if ($tasks->isEmpty()) {
+            return response(['message' => 'No tasks found for the project'], 404);
+        }
+
+        return response(['tasks' => $tasks], 200);
+    }
+
 }
+

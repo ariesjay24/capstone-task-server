@@ -14,7 +14,6 @@ class AuthController extends Controller
         $fields = $request->validate([
             "Username" => "required|string|unique:users,username",
             "FirstName" => "required|string",
-            "MiddleName" => "nullable|string",
             "LastName" => "required|string",
             "Email" => "required|string|unique:users,email|email",
             "Password" => "required|string|confirmed"
@@ -23,7 +22,6 @@ class AuthController extends Controller
         $user = User::create([
             "Username" => $fields["Username"],
             "FirstName" => $fields["FirstName"],
-            "MiddleName" => $fields["MiddleName"],
             "LastName" => $fields["LastName"],
             "Email" => $fields["Email"],
             "Password" => Hash::make($fields["Password"])

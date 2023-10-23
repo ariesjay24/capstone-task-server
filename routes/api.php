@@ -56,6 +56,10 @@ Route::group(["middleware" => ["auth:sanctum"]], function() {
     Route::put("/tasks/{id}", [TaskController::class, "update"]);
     Route::delete("/tasks/{id}", [TaskController::class, "destroy"]);
 
+    // Route for getting tasks related to a specific project
+    Route::get("/projects/{id}/tasks", [TaskController::class, "getTasksByProject"]);
+
+
     // Routes for managing project progress
     Route::get("/project-progress", [ProjectProgressController::class, "index"]);
     Route::get("/project-progress/{id}", [ProjectProgressController::class, "show"]);
