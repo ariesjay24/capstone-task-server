@@ -72,6 +72,7 @@ class ProjectProgressController extends Controller
             $progress->ProgressDate = $request->input('ProgressDate');
         }
 
+
         $progress->save();
 
         return response(['message' => 'Progress updated successfully', 'progress' => $progress], 200);

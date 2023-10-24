@@ -13,18 +13,18 @@ class TaskFactory extends Factory
 
     public function definition()
     {
-        $date = now();
+        $startDate = $this->faker->dateTimeBetween('-30 days', 'now');
+        $dueDate = $this->faker->dateTimeBetween($startDate, '+30 days');
 
-        // Define the possible status values
-        $statusValues = ['Not Started', 'In Progress', 'Completed', ];
+        $statusValues = ['Not Started', 'In Progress', 'Completed'];
 
         return [
             'TaskName' => $this->faker->sentence(),
             'Description' => $this->faker->paragraph(),
             'Priority' => $this->faker->randomElement([1, 2, 3]),
             'Status' => $this->faker->randomElement($statusValues),
-            'StartDate' => $date,
-            'DueDate' => $date->addDays($this->faker->numberBetween(1, 30)),
+            'StartDate' => $startDate,
+            'DueDate' => $dueDate,
             'ProjectID' => Project::inRandomOrder()->first()->id,
             'UserID' => User::inRandomOrder()->first()->id,
             'Type' => $this->faker->randomElement(['TypeA', 'TypeB', 'TypeC']),

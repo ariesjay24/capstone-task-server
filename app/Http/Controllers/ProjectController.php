@@ -117,7 +117,6 @@ class ProjectController extends Controller
 
     public function getTasksByProject($id)
 {
-    // Retrieve tasks related to the project with the given ID
     $tasks = Task::where('ProjectID', $id)->get();
 
     if ($tasks->isEmpty()) {

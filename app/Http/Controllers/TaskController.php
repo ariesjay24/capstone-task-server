@@ -8,11 +8,12 @@ use Illuminate\Http\Response;
 
 class TaskController extends Controller
 {
-    public function index()
-{
-    $tasks = Task::with('user')->get(); // Assuming you have a relationship named 'user' in your Task model
+    public function index(Request $request)
+    {
+    $tasks = Task::with('user')->orderBy($request->input('sortField', 'id'), $request->input('sortOrder', 'asc'))->get();
     return response(['tasks' => $tasks], 200);
-}
+    }
+
 
 
     public function show($id)
@@ -48,7 +49,7 @@ class TaskController extends Controller
             'StartDate' => $request->input('StartDate'),
             'DueDate' => $request->input('DueDate'),
             'ProjectID' => $request->input('ProjectID'),
-            'UserID' => $request->input('UserID'),
+            'UserID' => auth()->id(), 
             'Type' => $request->input('Type'),
         ]);
 
@@ -123,7 +124,6 @@ class TaskController extends Controller
 
     public function getTasksByProject($id)
     {
-        // Retrieve tasks related to the project with the given ID
         $tasks = Task::where('ProjectID', $id)->get();
 
         if ($tasks->isEmpty()) {

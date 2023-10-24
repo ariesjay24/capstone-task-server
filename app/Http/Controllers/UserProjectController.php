@@ -24,7 +24,7 @@ class UserProjectController extends Controller
 
     public function index()
     {
-        $userProjects = UserProject::all();
+        $userProjects = UserProject::where('UserID', $id)->get();
         return response(['userProjects' => $userProjects], 200);
     }
 

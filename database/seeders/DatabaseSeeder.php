@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
-use Database\Factories\TaskFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
 
-        // Use the TaskFactory to create 100 Task instances
-        Task::factory(100)->create();
+        
     }
 }
