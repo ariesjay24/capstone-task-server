@@ -11,3 +11,9 @@ php artisan route:cache
 
 echo "Running migrations..."
 php artisan migrate --force
+
+echo "Running seeders..."
+php artisan db:seed --force
+php artisan db:seed --class=ProjectSeeder --force
+php artisan db:seed --class=ProjectProgressSeeder --force
+php artisan db:seed --class=TaskSeeder --force
