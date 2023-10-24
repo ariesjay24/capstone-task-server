@@ -22,11 +22,22 @@ class UserProjectController extends Controller
         return response(['message' => 'User added to project successfully'], 201);
     }
 
-    public function index()
-    {
-        $userProjects = UserProject::where('UserID', $id)->get();
-        return response(['userProjects' => $userProjects], 200);
+    public function index(Request $request)
+{
+ 
+    $userID = $request->input('UserID');
+
+    if (!$userID) {
+        return response(['message' => 'UserID parameter is required'], 400);
     }
+
+   
+    $userProjects = UserProject::where('UserID', $userID)->get();
+
+    return response(['userProjects' => $userProjects], 200);
+}
+
+
 
     public function show($id)
     {
